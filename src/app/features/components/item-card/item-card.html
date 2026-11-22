@@ -1,0 +1,19 @@
+<mat-card appearance="outlined" class="card">
+  <mat-card-header>
+    <mat-card-title>{{ item().itemName }}</mat-card-title>
+    <mat-card-subtitle>{{ item().category }} - {{ item().colour }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>{{ item().type === 'lost' ? 'Lost' : 'Found' }} on {{ item().dateFound | date: 'd MMM y' }}</p>
+    @if (item().location) {
+      <p>Location: {{ item().location }}</p>
+    }
+  </mat-card-content>
+
+  <mat-card-actions>
+    <a matButton [routerLink]="['/items', item()._id]" [attr.aria-label]="'View details for ' + item().itemName">
+      View details
+    </a>
+  </mat-card-actions>
+</mat-card>

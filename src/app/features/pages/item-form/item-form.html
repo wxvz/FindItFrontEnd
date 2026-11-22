@@ -1,0 +1,124 @@
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="item-form" novalidate>
+  <h1>{{ isEdit ? 'Edit item' : 'Report a lost or found item' }}</h1>
+
+  @if (saving() || loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Lost or found</mat-label>
+      <mat-select formControlName="type">
+        @for (t of types; track t) {
+          <mat-option [value]="t">{{ t | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        @for (s of statuses; track s) {
+          <mat-option [value]="s">{{ s | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Item name</mat-label>
+    <input matInput formControlName="itemName" placeholder="e.g. MacBook Pro" />
+    @if (itemForm.controls.itemName.hasError('required')) {
+      <mat-error>Item name is required</mat-error>
+    } @else if (itemForm.controls.itemName.hasError('minlength')) {
+      <mat-error>Item name must be at least 2 characters</mat-error>
+    } @else if (itemForm.controls.itemName.hasError('maxlength')) {
+      <mat-error>Item name must be 50 characters or fewer</mat-error>
+    } @else if (itemForm.controls.itemName.hasError('blank')) {
+      <mat-error>Item name cannot be only spaces</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        @for (c of categories; track c) {
+          <mat-option [value]="c">{{ c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Colour</mat-label>
+      <input matInput formControlName="colour" placeholder="e.g. Silver" />
+      @if (itemForm.controls.colour.hasError('required')) {
+        <mat-error>Colour is required</mat-error>
+      } @else if (itemForm.controls.colour.hasError('maxlength')) {
+        <mat-error>Colour must be 20 characters or fewer</mat-error>
+      } @else if (itemForm.controls.colour.hasError('blank')) {
+        <mat-error>Colour cannot be only spaces</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Brand</mat-label>
+      <input matInput formControlName="brand" placeholder="e.g. Apple" />
+      <mat-hint>Optional</mat-hint>
+      @if (itemForm.controls.brand.hasError('maxlength')) {
+        <mat-error>Brand must be 30 characters or fewer</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location" placeholder="e.g. Room B2307" />
+      <mat-hint>Optional</mat-hint>
+      @if (itemForm.controls.location.hasError('maxlength')) {
+        <mat-error>Location must be 50 characters or fewer</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Date {{ itemForm.controls.type.value }}</mat-label>
+    <input matInput [matDatepicker]="picker" [max]="today" formControlName="dateFound" />
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+    <mat-datepicker #picker />
+    @if (itemForm.controls.dateFound.hasError('required')) {
+      <mat-error>Date is required</mat-error>
+    } @else if (itemForm.controls.dateFound.hasError('future')) {
+      <mat-error>Date can't be in the future</mat-error>
+    } @else if (itemForm.controls.dateFound.hasError('matDatepickerParse')) {
+      <mat-error>Enter a valid date</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Notes</mat-label>
+    <textarea
+      matInput
+      formControlName="notes"
+      rows="3"
+      placeholder="Where exactly, any marks or stickers..."
+    ></textarea>
+    <mat-hint align="end">{{ itemForm.controls.notes.value.length }} / 300</mat-hint>
+    @if (itemForm.controls.notes.hasError('maxlength')) {
+      <mat-error>Notes must be 300 characters or fewer</mat-error>
+    }
+  </mat-form-field>
+
+  @if (saveError(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  <div class="button-group">
+    <button matButton="filled" type="submit" [disabled]="saving() || loading()">
+      {{ saving() ? 'Saving...' : isEdit ? 'Save changes' : 'Save item' }}
+    </button>
+    <a matButton [routerLink]="isEdit ? ['/items', id()] : ['/items']">Cancel</a>
+  </div>
+</form>

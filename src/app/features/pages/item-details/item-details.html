@@ -1,0 +1,72 @@
+<a matButton routerLink="/items">Back to items</a>
+
+@let s = state();
+@if (s.status === 'loading') {
+  <div class="centre" role="status">
+    <mat-spinner diameter="40" />
+    <p>Loading item...</p>
+  </div>
+} @else if (s.status === 'error') {
+  <p class="error" role="alert">{{ s.message }}</p>
+} @else {
+  @let item = s.data;
+  <mat-card appearance="outlined" class="details">
+    <mat-card-header>
+      <mat-card-title
+        ><h1>{{ item.itemName }}</h1></mat-card-title
+      >
+      <mat-card-subtitle
+        >{{ item.type | titlecase }} · {{ item.status | titlecase }}</mat-card-subtitle
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <dl>
+        <dt>Category</dt>
+        <dd>{{ item.category }}</dd>
+        <dt>Colour</dt>
+        <dd>{{ item.colour }}</dd>
+        <dt>Brand</dt>
+        <dd>{{ item.brand || 'Not given' }}</dd>
+        <dt>Location</dt>
+        <dd>{{ item.location || 'Not given' }}</dd>
+        <dt>Date {{ item.type }}</dt>
+        <dd>{{ item.dateFound | date: 'fullDate' }}</dd>
+        <dt>Notes</dt>
+        <dd>{{ item.notes || 'None' }}</dd>
+      </dl>
+
+      @if (deleteError(); as message) {
+        <p class="error" role="alert">{{ message }}</p>
+      }
+    </mat-card-content>
+
+    <mat-card-actions class="actions">
+      @if (!confirmingDelete()) {
+        <a matButton="filled" [routerLink]="['/items', item._id, 'edit']">Edit</a>
+        <button matButton="outlined" type="button" (click)="confirmingDelete.set(true)">
+          Delete
+        </button>
+      } @else {
+        <p class="confirm" role="alert">Delete {{ item.itemName }}? This cannot be undone.</p>
+        <button
+          matButton="filled"
+          type="button"
+          class="danger"
+          [disabled]="deleting()"
+          (click)="deleteItem(item)"
+        >
+          {{ deleting() ? 'Deleting...' : 'Yes, delete' }}
+        </button>
+        <button
+          matButton
+          type="button"
+          [disabled]="deleting()"
+          (click)="confirmingDelete.set(false)"
+        >
+          Cancel
+        </button>
+      }
+    </mat-card-actions>
+  </mat-card>
+}

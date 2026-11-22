@@ -1,0 +1,38 @@
+.details {
+  max-width: 40rem;
+  margin: 1rem auto;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+}
+
+dt {
+  font-weight: 500;
+}
+
+dd {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.danger {
+  --mat-button-filled-container-color: var(--mat-sys-error);
+}
+
+.centre {
+  display: grid;
+  justify-items: center;
+  padding: 2rem 0;
+}
+
+.error {
+  color: var(--mat-sys-error);
+}

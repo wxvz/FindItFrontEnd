@@ -1,0 +1,35 @@
+<section class="item-list">
+  <div class="header">
+    <h1>Lost &amp; found items</h1>
+    <mat-button-toggle-group
+      aria-label="Show items"
+      [value]="filter()"
+      (change)="filter.set($event.value)"
+    >
+      <mat-button-toggle value="all">All</mat-button-toggle>
+      <mat-button-toggle value="lost">Lost</mat-button-toggle>
+      <mat-button-toggle value="found">Found</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  @let s = state();
+  @if (s.status === 'loading') {
+    <div class="centre" role="status">
+      <mat-spinner diameter="40" />
+      <p>Loading items...</p>
+    </div>
+  } @else if (s.status === 'error') {
+    <p class="error" role="alert">{{ s.message }}</p>
+  } @else if (visibleItems().length === 0) {
+    <div class="centre">
+      <p>No items to show.</p>
+      <a matButton="filled" routerLink="/items/new">Report an item</a>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (item of visibleItems(); track item._id) {
+        <app-item-card [item]="item" />
+      }
+    </div>
+  }
+</section>
