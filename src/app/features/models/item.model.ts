@@ -21,10 +21,10 @@ export interface Item {
   category: string;
   itemName: string;
   colour: string;
-  brand?: string;
-  location?: string;
+  brand?: string | null;
+  location?: string | null;
   dateFound: string;
-  notes?: string;
+  notes?: string | null;
   status: ItemStatus;
   createdAt?: string;
   updatedAt?: string;
@@ -35,10 +35,10 @@ export interface CreateItemDto {
   category: string;
   itemName: string;
   colour: string;
-  brand?: string;
-  location?: string;
+  brand?: string | null;
+  location?: string | null;
   dateFound: string;
-  notes?: string;
+  notes?: string | null;
   status: ItemStatus;
 }
 

@@ -138,10 +138,10 @@ export class ItemForm implements OnInit {
       itemName: value.itemName.trim(),
       category: value.category,
       colour: value.colour.trim(),
-      brand: value.brand.trim() || undefined,
-      location: value.location.trim() || undefined,
+      brand: value.brand.trim() || null,
+      location: value.location.trim() || null,
       dateFound: toDateString(value.dateFound!),
-      notes: value.notes.trim() || undefined,
+      notes: value.notes.trim() || null,
       status: value.status,
     };
 
