@@ -1,12 +1,12 @@
 import { Component, input } from '@angular/core';
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Item } from '../../models/item.model';
 
 @Component({
-  imports: [RouterLink, DatePipe, TitleCasePipe, MatCardModule, MatButtonModule],
+  imports: [RouterLink, DatePipe, MatCardModule, MatButtonModule],
   selector: 'app-item-card',
   styleUrl: './item-card.scss',
   templateUrl: './item-card.html',

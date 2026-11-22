@@ -3,12 +3,6 @@
   border-left: 4px solid var(--mat-sys-primary);
 }
 
-.card:has(.lost) {
+.card.lost {
   border-left-color: var(--mat-sys-tertiary);
-}
-
-.tag {
-  margin-right: 0.5rem;
-  font: var(--mat-sys-label-medium);
-  text-transform: uppercase;
 }

@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" class="card">
+<mat-card appearance="outlined" class="card" [class.lost]="item().type === 'lost'">
   <mat-card-header>
     <mat-card-title>{{ item().itemName }}</mat-card-title>
     <mat-card-subtitle>{{ item().category }} - {{ item().colour }}</mat-card-subtitle>
